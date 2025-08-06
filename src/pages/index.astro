@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import BurgerCard from '../components/BurgerCard.astro';
+import { getCollection } from 'astro:content';
+
+const burguers = await getCollection('burguers');
+const sortedBurguers = burguers.sort((a, b) => a.data.ranking - b.data.ranking);
+console.log('Burgers in index:', sortedBurguers.map(b => ({ id: b.id, title: b.data.title })));
+---
+<Layout>
+	<Header />
+	<main class="space-y-8 bg-custom-black w-full max-w-screen-xl mx-auto px-4 py-8">
+		{sortedBurguers.map((burger, index) => (
+			<BurgerCard 
+				title={burger.data.title}
+				img={burger.data.img}
+				prize={burger.data.prize}
+				size={burger.data.size}
+				description={burger.data.description}
+				ranking={burger.data.ranking}
+				slug={burger.id}
+			/>
+		))}
+	</main>
+</Layout>

@@ -1,0 +1,64 @@
+---
+interface Props {
+  title: string;
+  img: string;
+  prize: string;
+  size: string;
+  description: string;
+  ranking: number;
+  slug: string; // Agregar slug como prop
+}
+
+const { title, img, prize, size, description, ranking, slug } = Astro.props;
+
+const getRankingColor = () => {
+  return 'bg-custom-red';
+};
+---
+
+<div class="group relative bg-custom-black rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition-all duration-300 border border-gray-700/30 flex items-center gap-8 p-8 w-full min-w-[900px] mt-12">
+  <div class={`absolute top-4 left-4 ${getRankingColor()} text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shadow-lg z-10 pb-4`}>
+    #{ranking}
+  </div>
+
+  <div class="relative w-64 h-56 bg-gray-800 overflow-hidden rounded-xl flex-shrink-0">
+    <img 
+      src={`../../public/assets/${title}/${img}`} 
+      alt={title}
+      width="300"
+      height="300" 
+      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+      loading="lazy"
+    />
+    
+    <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  </div>
+
+  <!-- Contenido a la derecha -->
+  <div class="flex-1 text-white">
+    <h2 class="text-2xl font-bold text-yellow-400 mb-4 group-hover:text-yellow-300 transition-colors">{title}</h2>
+    
+    <div class="space-y-3 mb-6">
+      <p class="flex items-center gap-3">
+        <span class="text-yellow-400 font-medium">Precio:</span>
+        <span class="text-white font-bold text-lg">{prize}</span>
+      </p>
+      <p class="flex items-center gap-3">
+        <span class="text-yellow-400 font-medium">Tamaño:</span>
+        <span class="text-white font-bold text-lg">{size}</span>
+      </p>
+    </div>
+    
+    <div class="relative mb-6">
+      <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent"></div>
+      <p class="text-gray-300 pt-4 group-hover:text-white transition-colors leading-relaxed">{description}</p>
+    </div>
+
+    <a 
+      href={`/${slug}`}
+      class="px-6 py-3 bg-yellow-500 text-black font-bold rounded-lg opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 hover:bg-yellow-400 inline-block"
+    >
+      Ver más detalles
+    </a>
+  </div>
+</div>
